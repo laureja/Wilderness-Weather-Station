@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Wilderness Weather Station</title>
+        <!-- Adding Custom CSS -->
+        <link rel="stylesheet" href="UI_Map_Style.css">
+
+        <!-- Adding Monospace Google Font -->
+        <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Mono&display=swap" rel="stylesheet">
+        
+        <!-- Adding jQuery -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+        
+		<!-- Adding Leaflet -->
+		<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" integrity="sha512-07I2e+7D8p6he1SIM+1twR5TIrhUQn9+I6yjqD53JQjFiMf8EtC93ty0/5vJTZGF8aAocvHYNEDJajGdNx1IsQ==" crossorigin="">
+		<script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet-src.js" integrity="sha512-WXoSHqw/t26DszhdMhOXOkI7qCiv5QWXhH9R7CgvgZMHz1ImlkVQ3uNsiQKu5wwbbxtPzFXd1hK4tzno2VqhpA==" crossorigin=""></script>
+    </head>
+    
+    <body>
+        <div class="header">
+            <h1 id="title">Current Station Conditions</h1>
+            <div class="menu">
+                <a href="javascript:void(0)" id="linkOne" onclick="switchDiv('archiveDiv', 'linkOne')">Archive</a>
+                <a href="javascript:void(0)" id="linkTwo" onclick="switchDiv('statusDiv', 'linkTwo')">System Status</a>
+            </div>
+            </div>
+        </div>
+        <div id="stationMap">
+
+        </div>
+        <div id="archiveDiv">
+
+        </div>
+        <div id="statusDiv">
+
+        </div>
+        <div class="footer">
+
+        </div>
+
+        <!-- Adding custom JS -->
+        <script type="text/javascript" src="UI_Map_Script.js"></script>
+
+    </body>
+</html>

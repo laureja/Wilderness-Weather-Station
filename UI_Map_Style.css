@@ -1,0 +1,50 @@
+#stationMap 
+{   
+    height: 75vh;
+    width: 100%;
+    z-index: 0; 
+    transition: 0.5s;
+}
+#archiveDiv
+{
+    height: 75vh;
+    width: 0%;
+    z-index: 0;
+    transition: 0.5s;
+}
+#statusDiv
+{
+    height: 75vh;
+    width: 0%;
+    z-index: 0;
+    transition: 0.5s;
+}
+.header {
+    padding-left: 20px;
+    color: white;
+    font-family: 'IBM Plex Mono', monospace;
+}
+.menu {
+    position: fixed;
+    padding-right: 20px;
+    right: 0px;
+    top: 4vh;
+    width: fit-content;
+    background-color: black;
+}
+.menu a {
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+    padding-left: 30px;
+}
+a:hover {
+    color: red;
+}
+.footer {
+    color: white;
+}
+body {
+    background-color: black;
+    margin: 0px;
+}
