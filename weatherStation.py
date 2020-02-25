@@ -1,19 +1,16 @@
-"""given a beginning number and end number,
- prints out the names of weather stations, and assigns them with a unique weather type
-    """
-
 import random
 import json
-s = 100
-e = 0
-b = ""
+
 biome = ["rainforest","tundra","desert","plains"]
-class makeBiome:
-    def __init__(self,):
+
+class makeWeatherStation:
+    def __init__(self):
         self.biome = random.choice(biome)
+        self.coordinates = []
         self.temp = []
         self.hum = []
         self.wind = []
+        self.battery = 100
 
     def makeTemp(self):
         if(self.biome == "rainforest"):
@@ -56,13 +53,35 @@ class makeBiome:
         elif (self.biome == "plains"):
             for x in range(50):
                 self.wind.append(random.randint(10, 30))
+    def makeLongAndLat(self):
+        if (self.biome == "rainforest"):
+            self.coordinates.append(random.uniform(76.234587, 72.458019))
+            self.coordunates.append(random.uniform(-47.421122, -33.847574))
+        elif (self.biome == "tundra"):
+            self.coordinates.append(random.uniform(76.234587, 72.458019))
+            self.coordinates.append(random.uniform(-47.421122, -33.847574))
+        elif (self.biome == "desert"):
+            self.coordinates.append(random.uniform(37.637423,40.723223))
+            self.coordinates.append(random.uniform(-119.774298, -116.331553))
+        elif (self.biome == "plains"):
+            self.coordinates.append(random.uniform(42.193239,44.211069))
+            self.coordinates.append(random.uniform(-109.993484, -105.423172))
+    def simulateDay(self,days):
+        for x in range(days):
+            self.makeTemp()
+            self.makeWind()
+            self.makeHum()
+            self.battery -= random.randint(1,5)
+            
+    
 
 
-biome = makeBiome()
+biome = makeWeatherStation()
 biome.makeTemp()
 biome.makeHum()
 biome.makeWind()
+biome.makeLongAndLat()
+jsonStr = "{\"type\": \"Feature\", \"geometry\":{\"type\": \"Point\", \"coordinates\":" + str(biome.coordinates) + "},\"properties\": " + json.dumps(biome.__dict__)
 
-jsonStr = json.dumps(biome.__dict__)
 
 print(jsonStr)
