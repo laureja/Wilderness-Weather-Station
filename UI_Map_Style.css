@@ -1,48 +1,69 @@
 #stationMap 
 {   
+    position: fixed;
     height: 75vh;
     width: 100%;
+    left: 0;
     z-index: 0; 
     transition: 0.5s;
 }
 #archiveDiv
 {
+    position: fixed;
+    overflow: hidden;
     height: 75vh;
     width: 0%;
     z-index: 0;
+    left: 0;
     transition: 0.5s;
+    background-color: white;
 }
 #statusDiv
 {
+    position: fixed;
+    overflow: hidden;
     height: 75vh;
     width: 0%;
+    left: 0;
     z-index: 0;
     transition: 0.5s;
+    background-color: white;
 }
 .header {
     padding-left: 20px;
     color: white;
     font-family: 'IBM Plex Mono', monospace;
 }
-.menu {
-    position: fixed;
-    padding-right: 20px;
+
+/* Styling Menu */
+ul {
+    position: absolute;
+    top: 14px;
     right: 0px;
-    top: 4vh;
-    width: fit-content;
-    background-color: black;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
 }
-.menu a {
-    color: white;
-    font-weight: bold;
+li {
+    float: right;
+}
+li a {
+    display: block;
+    text-align: center;
+    color: grey;
     font-size: 20px;
-    padding-left: 30px;
+    padding: 14px 16px;
+    text-decoration: none;
 }
-a:hover {
-    color: red;
+li a:hover {
+    color: white;
 }
+
+/*Styling Footer */
 .footer {
     color: white;
+    background-color: purple;
 }
 body {
     background-color: black;

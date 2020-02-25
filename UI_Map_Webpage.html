@@ -19,21 +19,22 @@
     
     <body>
         <div class="header">
-            <h1 id="title">Current Station Conditions</h1>
-            <div class="menu">
-                <a href="javascript:void(0)" id="linkOne" onclick="switchDiv('archiveDiv', 'linkOne')">Archive</a>
-                <a href="javascript:void(0)" id="linkTwo" onclick="switchDiv('statusDiv', 'linkTwo')">System Status</a>
-            </div>
+            <h1 id="title">WWS</h1>
+                <ul>
+                    <li><a href="javascript:void(0)" id="linkOne" onclick="switchDiv('archiveDiv', 'linkOne')">Archive</a></li>
+                    <li><a href="javascript:void(0)" id="linkTwo" onclick="switchDiv('statusDiv', 'linkTwo')">System Status</a></li>
+                    <li><a style="color: white;" href="javascript:void(0)" id="linkThree" onclick="switchDiv('stationMap', 'linkThree')">Station Map</a></li>
+                </ul>
             </div>
         </div>
         <div id="stationMap">
-
+            
         </div>
         <div id="archiveDiv">
-
+            <p style="padding: 10px 10px;">A searchable archive of past data organized by location and date goes here.</p>
         </div>
         <div id="statusDiv">
-
+            <p style="padding: 10px 10px;">Data from System 3 (Maintenance & Management) goes here as well as being displayed separatley on the 3rd system.</p>
         </div>
         <div class="footer">
 

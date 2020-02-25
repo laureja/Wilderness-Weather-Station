@@ -3,6 +3,7 @@ var stationMap;
 var startingCoordinates;
 var maxZoom;
 var currentDiv = 'stationMap';
+var activeLink = 'linkThree';
 
 // Setting map variables
 startingCoordinates = [25.0000, 71.0000];
@@ -35,27 +36,12 @@ var circle = L.circle([25.0000, 71.0000], {
 circle.bindPopup("I am a circle.");
 
 // Funtion to switch between different interfaces (center divs)
-/*
 function switchDiv(newDiv, linkID) {
-    var newTitle;
-    var currentTitle = document.getElementById("title").innerHTML;
-    var newContent;
-    console.log(document.getElementById(linkID).onclick.toString)
-    if (newDiv == 'stationMap'){
-        newTitle = "Current Station Conditions";
-        newContent = currentTitle;
-    } else if (newDiv == 'archiveDiv'){
-        newTitle = "Archive";
-        newContent = currentTitle;
-    } else if (newDiv == 'statusDiv'){
-        newTitle = "System Status";
-        newContent = currentTitle;
-    } else {
-        console.log('ERROR: Invalid Div Passed to switchDiv(divName): ' + newDiv);
-    }
-    document.getElementById("title").innerHTML = newTitle;
-    document.getElementById(linkID).innerHTML = newContent;
-    document.getElementById(linkID).onclick = '"switchDiv(' + currentDiv + ', ' + linkID +')"'
+    document.getElementById(currentDiv).style.width = "0";
+    document.getElementById(newDiv).style.width = "100%";
+    document.getElementById(activeLink).style.color = "grey";
+    document.getElementById(linkID).style.color = "white";
     currentDiv = newDiv;
+    activeLink = linkID;
 }
-*/
+
