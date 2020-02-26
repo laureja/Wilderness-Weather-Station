@@ -1,7 +1,7 @@
 { "type": "FeatureCollection",
         "features": [
             {"type": "Feature",
-                "geometry": {"type": "Point", "coordinates": [76.234587, -47.421122]},
+                "geometry": {"type": "Point", "coordinates": [-47.421122, 76.234587]},
                 "properties": { "name": "Station 1",
                                 "temp": "100*f",
                                 "wind": "70mph",
