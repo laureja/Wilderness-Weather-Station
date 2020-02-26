@@ -3,23 +3,23 @@
             {"type": "Feature",
                 "geometry": {"type": "Point", "coordinates": [-47.421122, 76.234587]},
                 "properties": { "name": "Station 1",
-                                "temp": "100*f",
-                                "wind": "70mph",
-                                "humidity": "23"}
+                                "temp": "101*f",
+                                "wind": "71mph",
+                                "humidity": "0"}
             },
             {"type": "Feature",
                 "geometry": {"type": "Point", "coordinates": [-47.421122, 72.458019 ]},
                 "properties": { "name": "Station 2",
-                                "temp": "100*f",
+                                "temp": "32*f",
                                 "wind": "70mph",
-                                "humidity": "23"}
+                                "humidity": "27"}
             },
             {"type": "Feature",
                 "geometry": {"type": "Point", "coordinates": [-33.847574, 72.458019]},
                 "properties": { "name": "Station 3",
-                                "temp": "100*f",
-                                "wind": "70mph",
-                                "humidity": "23"}
+                                "temp": "-10*f",
+                                "wind": "0mph",
+                                "humidity": "25"}
             }
         ]
 
