@@ -1,99 +1,44 @@
-"""given a beginning number and end number,
- prints out the names of weather stations, and assigns them with a unique weather type
-    """
-
+"""Standard API get call for rapidAPI api, will use to get data."""
+import requests
 import random
 import json
-s = 100
-e = 0
-b = ""
-biome = ["rainforest","tundra","desert","plains"]
-class makeWeatherStation:
-    def __init__(self,):
-        self.biome = random.choice(biome)
-        self.coordinates = []
-        self.temp = 0
-        self.hum = 0
-        self.wind = 0
-        self.battery = 100
-        self.name = ""
-    def makeTemp(self):
-        if(self.biome == "rainforest"):
-          self.temp = random.randint(70,85)
-        elif (self.biome == "tundra"):
-             self.temp = random.randint(-15, 20)
-        elif (self.biome == "desert"):
-             self.temp = random.randint(90, 110)
-        elif (self.biome == "plains"):
-            self.temp = random.randint(45, 69)
 
-    def makeHum(self):
-        if (self.biome == "rainforest"):
+def getInfo(c):
+    url = "https://covid-193.p.rapidapi.com/statistics"
 
-                self.hum = random.randint(77, 88)
-        elif (self.biome == "tundra"):
-                self.hum = random.randint(1, 15)
-        elif (self.biome == "desert"):
-                self.hum  = random.randint(20,30)
-        elif (self.biome == "plains"):
-                self.hum =random.randint(50, 65)
+    querystring = {"country":c}
 
-    def makeWind(self):
-        if (self.biome == "rainforest"):
-                self.wind = random.randint(3, 10)
-        elif (self.biome == "tundra"):
-              self.wind = random.randint(50,200)
-        elif (self.biome == "desert"):
-                self.wind = random.randint(4, 11)
-        elif (self.biome == "plains"):
-                self.wind = random.randint(10, 30)
+    headers = {
+    'x-rapidapi-host': "covid-193.p.rapidapi.com",
+    'x-rapidapi-key': "18f213381bmshfae7bdf8680ceaep120d66jsnf626bc5aa4a1"
+        }
 
-    def makeLongAndLat(self):
-        if (self.biome == "rainforest"):
-            self.coordinates = [random.uniform(76.234587, 72.458019),random.uniform(-47.421122, -33.847574)]
-        elif (self.biome == "tundra"):
-            self.coordinates = [random.uniform(76.234587, 72.458019),random.uniform(-47.421122, -33.847574)]
+    response = requests.request("GET", url, headers=headers, params=querystring)
 
-        elif (self.biome == "desert"):
-            self.coordinates = [random.uniform(37.637423,40.723223),random.uniform(-119.774298, -116.331553)]
+    response.encoding = 'utf-8'
 
-        elif (self.biome == "plains"):
-            self.coordinates = [random.uniform(42.193239,44.211069),random.uniform(-109.993484, -105.423172)]
+    json_response = response.json()
 
-    def simulateDay(self,days):
-        for x in range(days):
-            self.makeTemp()
-            self.makeWind()
-            self.makeHum()
-            self.battery -= random.randint(1,5)
-jsonStr = ""
-stations = []
-weatherStation = makeWeatherStation()
-weatherStation2 = makeWeatherStation()
-weatherStation3 = makeWeatherStation()
-weatherStation4 = makeWeatherStation()
-weatherStation5 = makeWeatherStation()
-stations.append(weatherStation)
-stations.append(weatherStation2)
-stations.append(weatherStation3)
-stations.append(weatherStation4)
-stations.append(weatherStation5)
-c = 1
-for i in stations:
+    country = json_response['response'][0]
+    day = json_response['response'][0]["day"]
+    time = json_response['response'][0]["time"]
+    new = json_response['response'][0]["cases"]["new"]
+    active =  json_response['response'][0]["cases"]["active"]
+    crit = json_response['response'][0]["cases"]["critical"]
+    recov = json_response['response'][0]["cases"]["recovered"]
+    newDeaths = json_response['response'][0]["deaths"]["new"]
+    totalDeaths = json_response['response'][0]["deaths"]["total"]
+    total=  json_response['response'][0]["cases"]["total"]
 
-     i.name = "weatherStation " + str(c)
-     c = c+1
-for x in stations:
+    new = new[1:]
+    newDeaths = newDeaths[1:]
 
-    x.makeTemp()
-    x.makeHum()
-    x.makeWind()
-    x.makeLongAndLat()
-    jsonStr += "{\"type\": \"Feature\", \"geometry\":{\"type\": \"Point\", \"coordinates\":" + str(x.coordinates) + "},\"properties\": " + json.dumps(x.__dict__)
-    jsonStr += "\n"
+    def toString():
+
+        return   "Stats in: " + c + "-> New cases: " + str(new) +  " Active cases: " + str(active) + " Critical cases: " + str(crit) + " Recoveries: " + str(recov) + " New Deaths: "+ str(newDeaths) + " Total Deaths: " + str(totalDeaths)+ " Total infections: " +str(total)+ " Day: "+ str(day)+ " Time: " + str(time)
+
+    print(country)
+    print(toString())
+getInfo("China")
 
 
-
-f = open("stationCreation.json","w+")
-f.write(jsonStr)
-f.close()
