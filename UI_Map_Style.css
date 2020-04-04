@@ -29,6 +29,9 @@
     transition: 0.5s;
     background-color: white;
 }
+#sysThreeEx {
+    float: left;
+}
 .header {
     padding-left: 20px;
     color: white;
