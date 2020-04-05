@@ -45,6 +45,184 @@ function switchDiv(newDiv, linkID) {
     activeLink = linkID;
 }
 
+// Function for expanding data in archive, to use later...
+function expandData() {
+    var tables = document.getElementsByClassName("dataList");
+    tables.style.height = "100%";
+}
+
+// Your web app's Firebase configuration
+var firebaseConfig = {
+    apiKey: "AIzaSyAa88wENg_49uaG_UJLuDtQmdbF1_7F6C8",
+    authDomain: "wilderness-weather-stati-d17e8.firebaseapp.com",
+    databaseURL: "https://wilderness-weather-stati-d17e8.firebaseio.com",
+    projectId: "wilderness-weather-stati-d17e8",
+    storageBucket: "wilderness-weather-stati-d17e8.appspot.com",
+    messagingSenderId: "90112307813",
+    appId: "1:90112307813:web:93e25dd1e6a8fef1560c8c",
+    measurementId: "G-G29HDV1NKX"
+};
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+firebase.analytics();
+
+// Start Data Event Listeners
+var db = firebase.firestore();
+var docRef = db.collection("station").doc("Geometry");
+const dataDisplay = document.getElementById('dataObject');
+// Create points and add properties to them 
+function createPoints(doc){
+    
+    var jsonPoints = L.geoJSON(response.features, {
+        pointToLayer: function(feature, latlng){
+            console.log("Feature: " + feature + " LatLng: " + latlng);
+            return L.marker(latlng);
+        },
+
+        
+        onEachFeature: function(feature, layer) {
+            var name = feature.properties.name;
+            var temp = feature.properties.temp;
+            var wind = feature.properties.wind;
+            var hum = feature.properties.humidity;
+            var coords = feature.geometry.coordinates;
+            // Keep this:
+            layer.on('click', function(e) {
+                layer.bindPopup("Name: " + name + "</br>"
+                                + "Temperature: " + temp + "</br>"
+                                + "Wind: " + wind + "</br>"
+                                + "Humidity: " + hum + "</br>"
+                                + "Coordinates: [" + coords + "]");
+            });
+        }
+    });
+
+    jsonPoints.addTo(stationMap);
+}
+
+
+// Create HTML elements for rendering in the Archive
+function renderStation(doc) {
+    // Creating formatting elements
+    let li = document.createElement('li');
+        li.setAttribute('data-id', doc.id);
+        li.setAttribute('class', "archive");
+
+
+    let br = document.createElement('br');
+
+    // Creating basic info elements
+    let name = document.createElement('span');
+        name.setAttribute('class', "station-name");
+    let coordinates = document.createElement('span');
+        coordinates.setAttribute('class', "secondaryInfo");
+    let battery = document.createElement('span');
+        battery.setAttribute('class', "secondaryInfo");
+    let biome = document.createElement('span');
+        biome.setAttribute('class', "secondaryInfo");
+    let humHeader = document.createElement('span');
+        humHeader.setAttribute('class', "dataHeaders");
+    let tempHeader = document.createElement('span');
+        tempHeader.setAttribute('class', "dataHeaders");
+    let windHeader = document.createElement('span');
+        windHeader.setAttribute('class', "dataHeaders");
+
+    // Creating data List elements
+    let humList = document.createElement('ol');
+        humList.setAttribute('class', "dataList");
+    let tempList = document.createElement('ol');
+        tempList.setAttribute('class', "dataList");
+        tempList.setAttribute('style', "float: right; position: relative; top: -262px; left: -650px;");
+    let windList = document.createElement('ol');
+        windList.setAttribute('class', "dataList");
+        windList.setAttribute('style', "float: right; position: relative; top: -280px; left: 550px;");
+    
+    // Setting basic info content
+    name.textContent = doc.id;
+    coordinates.textContent = "Coordinates: [" + doc.data().Geometry.Coordinates + "]";
+    battery.textContent = "Battery Level: " + doc.data().Geometry.Properties.battery + "%";
+    biome.textContent = "Biome type: " + doc.data().Geometry.Properties.biome;
+
+    // Helper function to make appending elements to list easier
+    function addEntry(entry){
+        li.appendChild(entry);
+        li.innerHTML = li.innerHTML + '</br>'
+    }
+
+    // Adding basic info
+    addEntry(name);
+    addEntry(coordinates);
+    addEntry(battery);
+    addEntry(biome);
+
+    // Setting data list entries for humList
+    humHeader.textContent = "Humidity Levels: ";
+    humList.appendChild(humHeader);
+    humList.innerHTML = humList.innerHTML + '</br>'
+    for (var x of doc.data().Geometry.Properties.humidity){
+        let humElm = document.createElement('li');
+        //humElm.setAttribute('class', "dataList");
+        humElm.textContent = x;
+        humList.appendChild(humElm);
+    }
+    // Adding humidity data list
+    addEntry(humList);
+
+    // Setting data list entries for tempList
+    tempHeader.textContent = "Temperatures: ";
+    tempList.appendChild(tempHeader);
+    tempList.innerHTML = tempList.innerHTML + '</br>'
+    for (var x of doc.data().Geometry.Properties.temp){
+        let tempElm = document.createElement('li');
+        //tempElm.setAttribute('class', "dataList");
+        tempElm.textContent = x + " °F";
+        tempList.appendChild(tempElm);
+    }
+    // Adding temp data list
+    addEntry(tempList);
+
+    // Setting data list entries for windList
+    windHeader.textContent = "Wind Speeds: ";
+    windList.appendChild(windHeader);
+    windList.innerHTML = windList.innerHTML + '</br>'
+    for (var x of doc.data().Geometry.Properties.wind){
+        let windElm = document.createElement('li');
+        //windElm.setAttribute('class', "dataList");
+        windElm.textContent = x + "mph";
+        windList.appendChild(windElm);
+    }
+    // Adding wind data list
+    addEntry(windList);
+
+    dataDisplay.appendChild(li);
+
+}
+
+// Get elements from database, feed through rendering function for archive
+db.collection("stations")
+                .get()
+                .then((snapshot) => {
+                    snapshot.docs.forEach(doc => {
+                        console.log(doc.data());
+                        renderStation(doc);
+                    });
+}).catch(function(error) {
+    console.log("Error getting documents: ", error);
+});
+
+// Testing references...
+docRef.get().then(function(doc) {
+    if (doc.exists) {
+        var docData = doc.data();
+        console.log("Document data:", docData);
+    } else {
+        // doc.data() will be undefined in this case
+        console.log("No such document!");
+    }
+}).catch(function(error) {
+    console.log("Error getting document:", error);
+});
+
 // Using AJAX to read in raw .json file data from the GitHub, then working with that data
 $.ajax("https://raw.githubusercontent.com/laureja/Wilderness-Weather-Station/master/UI_Map_Data.json", {
     dataType: "json",
@@ -62,6 +240,7 @@ $.ajax("https://raw.githubusercontent.com/laureja/Wilderness-Weather-Station/mas
                 var wind = feature.properties.wind;
                 var hum = feature.properties.humidity;
                 var coords = feature.geometry.coordinates;
+                // Keep this:
                 layer.on('click', function(e) {
                     layer.bindPopup("Name: " + name + "</br>"
                                     + "Temperature: " + temp + "</br>"

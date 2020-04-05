@@ -15,23 +15,25 @@
 		<!-- Adding Leaflet -->
 		<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" integrity="sha512-07I2e+7D8p6he1SIM+1twR5TIrhUQn9+I6yjqD53JQjFiMf8EtC93ty0/5vJTZGF8aAocvHYNEDJajGdNx1IsQ==" crossorigin="">
 		<script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet-src.js" integrity="sha512-WXoSHqw/t26DszhdMhOXOkI7qCiv5QWXhH9R7CgvgZMHz1ImlkVQ3uNsiQKu5wwbbxtPzFXd1hK4tzno2VqhpA==" crossorigin=""></script>
+    
     </head>
     
     <body>
         <div class="header">
             <h1 id="title">WWS</h1>
-                <ul>
-                    <li><a href="javascript:void(0)" id="linkOne" onclick="switchDiv('archiveDiv', 'linkOne')">Archive</a></li>
-                    <li><a href="javascript:void(0)" id="linkTwo" onclick="switchDiv('statusDiv', 'linkTwo')">System Status</a></li>
-                    <li><a style="color: white;" href="javascript:void(0)" id="linkThree" onclick="switchDiv('stationMap', 'linkThree')">Station Map</a></li>
-                </ul>
+            <ul class="tabs">
+                <li class="tabs"><a href="javascript:void(0)" id="linkOne" onclick="switchDiv('archiveDiv', 'linkOne')">Archive</a></li>
+                <li class="tabs"><a href="javascript:void(0)" id="linkTwo" onclick="switchDiv('statusDiv', 'linkTwo')">System Status</a></li>
+                <li class="tabs"><a style="color: white;" href="javascript:void(0)" id="linkThree" onclick="switchDiv('stationMap', 'linkThree')">Station Map</a></li>
+            </ul>
             </div>
         </div>
         <div id="stationMap">
             
         </div>
         <div id="archiveDiv">
-            <p style="padding: 10px 10px;">A searchable archive of past data organized by location and date goes here.</p>
+            <h2 class="archive">Weather Stations: </h2>
+            <ul class="archive" id='dataObject'></ul>
         </div>
         <div id="statusDiv">
             <p style="padding: 10px 10px;">Data from System 3 (Maintenance & Management) goes here as well as being displayed separatley on the 3rd system. Example: </p>
@@ -41,8 +43,18 @@
 
         </div>
 
+        
+
+        <!-- Adding Firebase JS -->
+        <!-- TODO: Add SDKs for Firebase products that you want to use
+            https://firebase.google.com/docs/web/setup#available-libraries -->
+        <script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-analytics.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-firestore.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-database.js"></script>
+
         <!-- Adding custom JS -->
         <script type="text/javascript" src="UI_Map_Script.js"></script>
-
+        
     </body>
 </html>
