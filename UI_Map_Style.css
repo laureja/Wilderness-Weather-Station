@@ -105,6 +105,7 @@ span.dataHeaders {
     font-weight: bold;
 }
 ol.dataList {
+    list-style-type: none;
     border-bottom: 2px solid black; 
     border-top: 2px solid black;
 	border-left: 0px;
