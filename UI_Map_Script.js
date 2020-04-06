@@ -80,23 +80,6 @@ function onEachFeature(feature, layer) {
         layer.bindPopup
     }
 }
-//test
-var geojsonFeature = {
-    "type": "Feature",
-    "properties": {
-        "name": "Coors Field",
-        "amenity": "Baseball Stadium",
-        "popupContent": "This is where the Rockies play!"
-    },
-    "geometry": {
-        "type": "Point",
-        "coordinates": [-104.99404, 39.75621]
-    }
-};
-//Add markers on map
-L.geoJSON(geojsonFeature, {
-    onEachFeature: onEachFeature
-}).addTo(stationMap);
 
 // Create points and add properties to them 
 function createPoints(doc) {
@@ -135,10 +118,12 @@ function createPoints(doc) {
                 var wind = geoJSONFeature1.properties.wind;
                 var hum = geoJSONFeature1.properties.humidity;
                 var coords = geoJSONFeature1.geometry.coordinates;
+                var biome = geoJSONFeature1.properties.biome;
                 console.log(coords);
                 // Keep this:
                 layer.on('click', function(e) {
                     layer.bindPopup("Name: " + name + "</br>"
+                                    + "Biome: "+ biome +"</br>"
                                     + "Temperature: " + temp + " F</br>"
                                     + "Wind: " + wind + " MPH</br>"
                                     + "Humidity: " + hum + " dew pt.</br>"
