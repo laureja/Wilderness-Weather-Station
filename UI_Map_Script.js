@@ -70,35 +70,88 @@ firebase.analytics();
 var db = firebase.firestore();
 var docRef = db.collection("station").doc("Geometry");
 const dataDisplay = document.getElementById('dataObject');
-// Create points and add properties to them 
-function createPoints(doc){
-    
-    var jsonPoints = L.geoJSON(response.features, {
-        pointToLayer: function(feature, latlng){
-            console.log("Feature: " + feature + " LatLng: " + latlng);
-            return L.marker(latlng);
-        },
 
-        
-        onEachFeature: function(feature, layer) {
-            var name = feature.properties.name;
-            var temp = feature.properties.temp;
-            var wind = feature.properties.wind;
-            var hum = feature.properties.humidity;
-            var coords = feature.geometry.coordinates;
-            // Keep this:
-            layer.on('click', function(e) {
-                layer.bindPopup("Name: " + name + "</br>"
-                                + "Temperature: " + temp + "</br>"
-                                + "Wind: " + wind + "</br>"
-                                + "Humidity: " + hum + "</br>"
-                                + "Coordinates: [" + coords + "]");
-            });
-        }
-    });
+//add popups on features
 
-    jsonPoints.addTo(stationMap);
+function onEachFeature(feature, layer) {
+    // does this feature have a property named popupContent?
+    if (feature.properties && feature.properties.popupContent) {
+        layer.bindPopup(feature.properties.popupContent);
+        layer.bindPopup
+    }
 }
+//test
+var geojsonFeature = {
+    "type": "Feature",
+    "properties": {
+        "name": "Coors Field",
+        "amenity": "Baseball Stadium",
+        "popupContent": "This is where the Rockies play!"
+    },
+    "geometry": {
+        "type": "Point",
+        "coordinates": [-104.99404, 39.75621]
+    }
+};
+//Add markers on map
+L.geoJSON(geojsonFeature, {
+    onEachFeature: onEachFeature
+}).addTo(stationMap);
+
+// Create points and add properties to them 
+function createPoints(doc) {
+    console.log("create points");
+    var temp = doc.data().Geometry.Properties.temp[49];
+    var wind = doc.data().Geometry.Properties.wind[49];
+    var hum = doc.data().Geometry.Properties.humidity[49];
+    var coords = doc.data().Geometry.Properties.coordinates;
+    var biome = doc.data().Geometry.Properties.biome;
+    var battery = doc.data().Geometry.Properties.battery;
+
+
+
+    var geoJSONFeature1 = { 
+        "type": "Feature",
+        "properties": {
+            "name":doc.id,
+            "battery": doc.data().Geometry.Properties.battery,
+            "biome": doc.data().Geometry.Properties.biome,
+            "coordinates": doc.data().Geometry.Properties.coordinates,
+            "temp": doc.data().Geometry.Properties.temp[49],
+            "humidity": doc.data().Geometry.Properties.humidity[49],
+            "wind": doc.data().Geometry.Properties.wind[49],
+        },
+        "geometry": {
+            "type": "Point",
+            "coordinates":doc.data().Geometry.Coordinates,
+            }
+        }
+        
+        var geoJSONPoints = L.geoJSON(geoJSONFeature1, {
+            onEachFeature: function(geoJSONFeature1, layer) {
+                console.log("set vars");
+                var name = geoJSONFeature1.properties.name;
+                var temp = geoJSONFeature1.properties.temp;
+                var wind = geoJSONFeature1.properties.wind;
+                var hum = geoJSONFeature1.properties.humidity;
+                var coords = geoJSONFeature1.geometry.coordinates;
+                console.log(coords);
+                // Keep this:
+                layer.on('click', function(e) {
+                    layer.bindPopup("Name: " + name + "</br>"
+                                    + "Temperature: " + temp + " F</br>"
+                                    + "Wind: " + wind + " MPH</br>"
+                                    + "Humidity: " + hum + " dew pt.</br>"
+                                    + "Coordinates: [" + coords + "]");
+        });
+    }
+});
+    console.log("hi")
+    geoJSONPoints.addTo(stationMap)
+    
+}
+
+
 
 
 // Create HTML elements for rendering in the Archive
@@ -205,6 +258,7 @@ db.collection("stations")
                     snapshot.docs.forEach(doc => {
                         console.log(doc.data());
                         renderStation(doc);
+                        createPoints(doc);
                     });
 }).catch(function(error) {
     console.log("Error getting documents: ", error);
@@ -223,34 +277,35 @@ docRef.get().then(function(doc) {
     console.log("Error getting document:", error);
 });
 
-// Using AJAX to read in raw .json file data from the GitHub, then working with that data
+/* // Using AJAX to read in raw .json file data from the GitHub, then working with that data
 $.ajax("https://raw.githubusercontent.com/laureja/Wilderness-Weather-Station/master/UI_Map_Data.json", {
     dataType: "json",
     success: function(response){
         console.log("successfully read json!");
 
-        var jsonPoints = L.geoJSON(response.features, {
-            pointToLayer: function(feature, latlng){
-                console.log("Feature: " + feature + " LatLng: " + latlng);
-				return L.marker(latlng);
-            },
-            onEachFeature: function(feature, layer) {
-                var name = feature.properties.name;
-                var temp = feature.properties.temp;
-                var wind = feature.properties.wind;
-                var hum = feature.properties.humidity;
-                var coords = feature.geometry.coordinates;
-                // Keep this:
-                layer.on('click', function(e) {
-                    layer.bindPopup("Name: " + name + "</br>"
-                                    + "Temperature: " + temp + "</br>"
-                                    + "Wind: " + wind + "</br>"
-                                    + "Humidity: " + hum + "</br>"
-                                    + "Coordinates: [" + coords + "]");
-                });
-            }
-        });
+        var jsonPoints = 
+        L.geoJSON(response.features, {pointToLayer: function(feature, latlng)
+                                        {
+				                            return L.marker(latlng);
+                                        },
+                                        onEachFeature: function(feature, layer) {
+                                        var name = feature.properties.name;
+                                        var temp = feature.properties.temp;
+                                        var wind = feature.properties.wind;
+                                        var hum = feature.properties.humidity;
+                                        var coords = feature.geometry.coordinates;
+            
+                                        layer.on('click', function(e) {
+                                            layer.bindPopup("Name: " + name + "</br>"
+                                                            + "Temperature: " + temp + "</br>"
+                                                            + "Wind: " + wind + "</br>"
+                                                            + "Humidity: " + hum + "</br>"
+                                                            + "Coordinates: [" + coords + "]");
+                                        });
+                                        }                          
+                                    });
 
         jsonPoints.addTo(stationMap);
     }
 });
+ */
